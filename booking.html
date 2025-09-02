@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ticket Booking</title>
+  <style>
+    :root {
+      --accent: #00ffd5;
+      --accent-strong: #00bfa6;
+      --text: #ffffff;
+      --glass: rgba(255, 255, 255, 0.1);
+      --shadow: rgba(0, 0, 0, 0.6);
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; font-family: 'Segoe UI', system-ui, -apple-system, Roboto, Arial, sans-serif; color: var(--text); }
+    body {
+      background: url('https://img.freepik.com/premium-photo/beautiful-woman-with-airplane-tickets-hand-smiling-isolated-blue_97712-4135.jpg?semt=ais_hybrid&w=1600&q=80') center/cover fixed no-repeat;
+    }
+    .overlay { position: fixed; inset: 0; background: rgba(0,0,0,.6); z-index: 0; }
+    .container { position: relative; z-index: 1; display: grid; place-items: center; min-height: 100vh; padding: 24px; }
+    .booking-form { width: 100%; max-width: 520px; background: var(--glass); backdrop-filter: blur(10px); padding: 28px; border-radius: 16px; box-shadow: 0 0 24px var(--shadow); border: 1px solid rgba(255,255,255,.12); }
+    h1 { margin: 0 0 18px; text-align: center; letter-spacing: .5px; color: var(--accent); text-shadow: 2px 2px 10px #000; font-size: clamp(24px, 3.5vw, 34px); }
+    label { display: block; margin: 10px 0 6px; font-weight: 600; }
+    input, select { width: 100%; padding: 12px 14px; border: none; border-radius: 10px; font-size: 1rem; outline: none; box-shadow: inset 0 0 0 1px rgba(255,255,255,.18); background: rgba(255,255,255,.08); color: #fff; }
+    input[readonly] { opacity: .9; }
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .muted { opacity: .9; font-size: .92rem; }
+    .price-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 6px 0 2px; font-size: .95rem; }
+    .pill { padding: 6px 10px; border-radius: 999px; background: rgba(0,0,0,.35); border: 1px solid rgba(255,255,255,.14); }
+    button { width: 100%; padding: 13px 16px; border: 0; border-radius: 10px; margin-top: 8px; font-weight: 700; letter-spacing: .3px; background: var(--accent); color: #001410; cursor: pointer; box-shadow: 0 10px 20px rgba(0,0,0,.35); transition: transform .06s ease, background .25s ease; }
+    button:hover { background: var(--accent-strong); color: #fff; }
+    button:active { transform: translateY(1px); }
+    .credits { margin-top: 10px; text-align: center; font-size: .82rem; opacity: .85; }
+    .sr { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+    .error { color: #ffd1d1; font-size: .9rem; min-height: 1.1rem; }
+  </style>
+</head>
+<body>
+  <div class="overlay" aria-hidden="true"></div>
+  <div class="container">
+    <form action="https://formspree.io/f/xjkebrwy" method="POST" class="booking-form" id="bookingForm" novalidate>
+      <h1>Ticket Booking</h1>
+      
+
+      <label for="name">Full Name</label>
+      <input type="text" id="name" name="name" required placeholder="Your Name" autocomplete="name" pattern="^[A-Za-z\s'.-]{2,}$" />
+
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" required placeholder="you@example.com" autocomplete="email" />
+
+      <label for="mobile">Mobile Number</label>
+      <input type="tel" id="mobile" name="mobile" required inputmode="numeric" placeholder="10-digit Mobile Number" pattern="^[0-9]{10}$" />
+
+      <label for="place">Select Place</label>
+      <select id="place" name="place" required>
+        <option value="">-- Select Place --</option>
+        <option value="Ooty" data-price="200">Ooty — ₹200</option>
+        <option value="Madurai" data-price="150">Madurai — ₹150</option>
+        <option value="Mahabalipuram" data-price="250">Mahabalipuram — ₹250</option>
+      </select>
+
+      <div class="price-row muted" aria-live="polite">
+        <span class="pill" id="pricePill">Per ticket: —</span>
+        <span class="pill" id="codePill">Code: —</span>
+      </div>
+
+      <div class="row">
+        <div>
+          <label for="tickets">Number of Tickets</label>
+          <input type="number" id="tickets" name="tickets" min="1" max="20" value="1" required />
+        </div>
+        <div>
+          <label for="totalDisplay">Total Amount (₹)</label>
+          <input type="text" id="totalDisplay" readonly placeholder="₹0" />
+        </div>
+      </div>
+
+      <label for="ticketNumber">Ticket Number(s)</label>
+      <input type="text" name="ticket_number" id="ticketNumber" readonly />
+
+      <!-- Hidden, clean values submitted to Formspree -->
+      <input type="hidden" id="totalAmount" name="total_amount" />
+      <input type="hidden" id="amountPaise" name="amount_paise" />
+
+      <div class="error" id="formError" role="alert" aria-live="polite"></div>
+
+      <button type="submit">Book Ticket 🎟️</button>
+      <div class="credits">Powered by <strong>Techstaars</strong></div>
+      <input type="hidden" name="_redirect" value="https://yourdomain.com/success.html">
+
+    </form>
+  </div>
+
+  <script>
+    (function () {
+      const place = document.getElementById('place');
+      const tickets = document.getElementById('tickets');
+      const totalDisplay = document.getElementById('totalDisplay');
+      const totalAmount = document.getElementById('totalAmount');
+      const amountPaise = document.getElementById('amountPaise');
+      const ticketNumberField = document.getElementById('ticketNumber');
+      const pricePill = document.getElementById('pricePill');
+      const codePill = document.getElementById('codePill');
+      const form = document.getElementById('bookingForm');
+      const formError = document.getElementById('formError');
+
+      let ticketPrice = 0;
+
+      const moneyFmt = new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' });
+
+      function todayCode() {
+        const d = new Date();
+        const pad = (n) => String(n).padStart(2, '0');
+        return `${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}`; // YYYYMMDD
+      }
+
+      function uid(len = 4) {
+        return Math.random().toString(36).slice(2, 2+len).toUpperCase();
+      }
+
+      function generateTicketNumbers(count) {
+        const arr = new Set();
+        const prefix = `TN-${todayCode()}`;
+        while (arr.size < count) arr.add(`${prefix}-${uid(5)}`);
+        return [...arr];
+      }
+
+      function updateComputed() {
+        const n = Math.max(1, parseInt(tickets.value || '1', 10));
+        tickets.value = n; // clamp
+
+        const selected = place.selectedOptions[0];
+        ticketPrice = selected ? parseInt(selected.dataset.price || '0', 10) : 0;
+
+        pricePill.textContent = ticketPrice ? `Per ticket: ${moneyFmt.format(ticketPrice)}` : 'Per ticket: —';
+        codePill.textContent = `Code: ${todayCode()}`;
+
+        const total = n * ticketPrice;
+        totalDisplay.value = moneyFmt.format(total);
+        totalAmount.value = String(total);
+        amountPaise.value = String(total * 100);
+
+        const numbers = generateTicketNumbers(n);
+        ticketNumberField.value = numbers.join(', ');
+      }
+
+      place.addEventListener('change', updateComputed);
+      tickets.addEventListener('input', updateComputed);
+
+      form.addEventListener('submit', (e) => {
+        formError.textContent = '';
+        if (!place.value) {
+          e.preventDefault();
+          formError.textContent = 'Please select a place.';
+          place.focus();
+          return;
+        }
+        if (!ticketPrice) {
+          e.preventDefault();
+          formError.textContent = 'Selected place has no price. Please try again.';
+          return;
+        }
+        updateComputed(); // ensure latest
+      });
+
+      // initial
+      updateComputed();
+    })();
+  </script>
+</body>
+</html>
