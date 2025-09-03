@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Tamil Nadu Tourist Explorer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    body,
+    html {
+      height: 120%;
+      margin: 0;
+      font-family: 'Jost', sans-serif;
+      color: #ffffff;
+      background: url('https://img.etimg.com/thumb/width-1600,height-900,imgsize-167783,resizemode-75,msid-32503709/industry/services/travel/adventure-tourism-business-booms-in-india-but-many-pitfalls-need-to-be-addressed.jpg') center/cover no-repeat;
+      position: relative;
+    }
+    .overlay {
+      background: rgba(0, 0, 0, 0.6);
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+    }
+    .container {
+      position: relative;
+      z-index: 2;
+      padding: 30px;
+      max-width: 1100px;
+      margin: auto;
+    }
+    h1,
+    p {
+      text-align: center;
+      text-shadow: 0 0 8px #00f5ff;
+    }
+    h1 {
+      font-size: 3rem;
+      margin-top: 20px;
+    }
+    p {
+      font-size: 1.2rem;
+      margin-bottom: 20px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+    .card {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 12px;
+      padding: 20px;
+      backdrop-filter: blur(8px);
+      transition: transform 0.3s ease, background 0.3s ease;
+    }
+    .card:hover {
+      transform: scale(1.05);
+      background: rgba(255, 255, 255, 0.25);
+    }
+    .card h2 {
+      color: #ffdc64;
+      margin-bottom: 10px;
+    }
+    .card p {
+      margin: 5px 0;
+    }
+    .btn {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 10px 16px;
+      background: #00ffd5;
+      color: #000;
+      text-decoration: none;
+      border-radius: 6px;
+      font-weight: bold;
+      transition: background 0.3s ease;
+    }
+    .btn:hover {
+      background: #00bfa6;
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+  
+  <div class="overlay"></div>
+  <div class="container">
+    <h1>Explore Tamil Nadu</h1>
+    <p>Discover stunning places, check timings, nearby amenities, and book tickets with ease.</p>
+
+    <div class="grid">
+      <div class="card">
+        <h2>Mahabalipuram</h2>
+        <p>UNESCO site: Shore Temple, Pancha Rathas, Arjuna’s Penance</p>
+        <p>Nearby: Beaches, carving shops</p>
+        <p><strong>Ticket: ₹150</strong></p>
+        <a href="booking.html?place=Mahabalipuram" class="btn">Book Visit</a>
+      </div>
+
+      <div class="card">
+        <h2>Kodaikanal</h2>
+        <p>Princess of Hill Stations: Coaker’s Walk, Bryant Park, Pillar Rocks</p>
+        <p>Nearby: Local markets, chocolate shops</p>
+        <a href="booking.html?place=Kodaikanal" class="btn">Book Trip</a>
+      </div>
+
+      <div class="card">
+        <h2>Rameswaram</h2>
+        <p>Ramanathaswamy Temple, serene beaches</p>
+        <p>Nearby: Pilgrim facilities, hotels</p>
+        <a href="booking.html?place=Rameswaram" class="btn">Book Entry</a>
+      </div>
+
+      <div class="card">
+        <h2>Hogenakkal Falls</h2>
+        <p>“Niagara of India” – coracle rides, scenic beauty</p>
+        <p>Nearby: Local eateries</p>
+        <a href="booking.html?place=Hogenakkal Falls" class="btn">Book Ride</a>
+      </div>
+
+      <div class="card">
+        <h2>Chettinad</h2>
+        <p>Heritage mansions, spicy Chettinad cuisine</p>
+        <p>Nearby: Palaces, local crafts</p>
+        <a href="booking.html?place=Chettinad" class="btn">Book Tour</a>
+      </div>
+
+      <div class="card">
+        <h2>Kanyakumari</h2>
+        <p>Sunrise/Sunset views; Vivekananda Rock Memorial</p>
+        <p>Nearby: Beaches, memorials</p>
+        <a href="booking.html?place=Kanyakumari" class="btn">Book View</a>
+      </div>
+
+      <!-- More places added -->
+
+      <div class="card">
+        <h2>Ooty</h2>
+        <p>Queen of Hill Stations: Botanical Gardens, Ooty Lake</p>
+        <p>Nearby: Tea plantations, scenic viewpoints</p>
+        <a href="booking.html?place=Ooty" class="btn">Book Trip</a>
+      </div>
+
+      <div class="card">
+        <h2>Madurai</h2>
+        <p>Meenakshi Amman Temple, rich cultural heritage</p>
+        <p>Nearby: Markets, local cuisine</p>
+        <a href="booking.html?place=Madurai" class="btn">Book Visit</a>
+      </div>
+
+      <div class="card">
+        <h2>Thanjavur</h2>
+        <p>Brihadeeswarar Temple, art and history</p>
+        <p>Nearby: Museums, traditional crafts</p>
+        <a href="booking.html?place=Thanjavur" class="btn">Book Tour</a>
+      </div>
+
+      <div class="card">
+        <h2>Yercaud</h2>
+        <p>Scenic hill station with lake and gardens</p>
+        <p>Nearby: Nature trails, plantations</p>
+        <a href="booking.html?place=Yercaud" class="btn">Book Trip</a>
+      </div>
+
+      <div class="card">
+        <h2>Coimbatore</h2>
+        <p>Textile city with temples and parks</p>
+        <p>Nearby: Shopping, restaurants</p>
+        <a href="booking.html?place=Coimbatore" class="btn">Book Visit</a>
+      </div>
+
+      <div class="card">
+        <h2>Velankanni</h2>
+        <p>Famous Basilica of Our Lady of Good Health</p>
+        <p>Nearby: Pilgrim facilities</p>
+        <a href="booking.html?place=Velankanni" class="btn">Book Visit</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
