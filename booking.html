@@ -22,8 +22,9 @@
     .booking-form { width: 100%; max-width: 520px; background: var(--glass); backdrop-filter: blur(10px); padding: 28px; border-radius: 16px; box-shadow: 0 0 24px var(--shadow); border: 1px solid rgba(255,255,255,.12); }
     h1 { margin: 0 0 18px; text-align: center; letter-spacing: .5px; color: var(--accent); text-shadow: 2px 2px 10px #000; font-size: clamp(24px, 3.5vw, 34px); }
     label { display: block; margin: 10px 0 6px; font-weight: 600; }
-    input, select { width: 100%; padding: 12px 14px; border: none; border-radius: 10px; font-size: 1rem; outline: none; box-shadow: inset 0 0 0 1px rgba(255,255,255,.18); background: rgba(255,255,255,.08); color: #fff; }
+    input { width: 100%; padding: 12px 14px; border: none; border-radius: 10px; font-size: 1rem; outline: none; box-shadow: inset 0 0 0 1px rgba(255,255,255,.18); background: rgba(255,255,255,.08); color: #fff; }
     input[readonly] { opacity: .9; }
+
     .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
     .muted { opacity: .9; font-size: .92rem; }
     .price-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 6px 0 2px; font-size: .95rem; }
@@ -32,7 +33,6 @@
     button:hover { background: var(--accent-strong); color: #fff; }
     button:active { transform: translateY(1px); }
     .credits { margin-top: 10px; text-align: center; font-size: .82rem; opacity: .85; }
-    .sr { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
     .error { color: #ffd1d1; font-size: .9rem; min-height: 1.1rem; }
   </style>
 </head>
@@ -51,13 +51,8 @@
       <label for="mobile">Mobile Number</label>
       <input type="tel" id="mobile" name="mobile" required inputmode="numeric" placeholder="10-digit Mobile Number" pattern="^[0-9]{10}$" />
 
-      <label for="place">Select Place</label>
-      <select id="place" name="place" required>
-        <option value="">-- Select Place --</option>
-        <option value="Ooty" data-price="200">Ooty — ₹200</option>
-        <option value="Madurai" data-price="150">Madurai — ₹150</option>
-        <option value="Mahabalipuram" data-price="250">Mahabalipuram — ₹250</option>
-      </select>
+      <label for="place">Selected Place</label>
+      <input type="text" id="place" name="place" readonly />
 
       <div class="price-row muted" aria-live="polite">
         <span class="pill" id="pricePill">Per ticket: —</span>
@@ -87,13 +82,14 @@
       <button type="submit">Book Ticket 🎟️</button>
       <div class="credits">Powered by <strong>Techstaars</strong></div>
       <input type="hidden" name="_redirect" value="https://yourdomain.com/success.html">
-
     </form>
   </div>
 
   <script>
     (function () {
-      const place = document.getElementById('place');
+      const urlParams = new URLSearchParams(window.location.search);
+      const selectedPlace = urlParams.get('place') || '';
+      const placeInput = document.getElementById('place');
       const tickets = document.getElementById('tickets');
       const totalDisplay = document.getElementById('totalDisplay');
       const totalAmount = document.getElementById('totalAmount');
@@ -104,7 +100,24 @@
       const form = document.getElementById('bookingForm');
       const formError = document.getElementById('formError');
 
-      let ticketPrice = 0;
+      const placePrices = {
+        "Mahabalipuram": 150,
+        "Kodaikanal": 180,
+        "Rameswaram": 160,
+        "Hogenakkal Falls": 100,
+        "Chettinad": 140,
+        "Kanyakumari": 160,
+        "Ooty": 200,
+        "Madurai": 150,
+        "Thanjavur": 130,
+        "Yercaud": 120,
+        "Coimbatore": 140,
+        "Velankanni": 150
+      };
+
+      placeInput.value = selectedPlace;
+
+      let ticketPrice = placePrices[selectedPlace] || 0;
       const moneyFmt = new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' });
 
       function todayCode() {
@@ -126,10 +139,6 @@
 
       function updateComputed() {
         const n = parseInt(tickets.value, 10);
-
-        const selected = place.selectedOptions[0];
-        ticketPrice = selected ? parseInt(selected.dataset.price || '0', 10) : 0;
-
         pricePill.textContent = ticketPrice ? `Per ticket: ${moneyFmt.format(ticketPrice)}` : 'Per ticket: —';
         codePill.textContent = `Code: ${todayCode()}`;
 
@@ -150,20 +159,13 @@
         ticketNumberField.value = numbers.join(', ');
       }
 
-      place.addEventListener('change', updateComputed);
       tickets.addEventListener('input', updateComputed);
 
       form.addEventListener('submit', (e) => {
         formError.textContent = '';
-        if (!place.value) {
+        if (!selectedPlace || !ticketPrice) {
           e.preventDefault();
-          formError.textContent = 'Please select a place.';
-          place.focus();
-          return;
-        }
-        if (!ticketPrice) {
-          e.preventDefault();
-          formError.textContent = 'Selected place has no price. Please try again.';
+          formError.textContent = 'Selected place is invalid.';
           return;
         }
         if (!tickets.value || parseInt(tickets.value, 10) < 1) {
@@ -175,7 +177,6 @@
         updateComputed();
       });
 
-      // Start with everything blank
       totalDisplay.value = "₹0";
       ticketNumberField.value = "";
     })();
