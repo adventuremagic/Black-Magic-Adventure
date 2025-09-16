@@ -42,7 +42,6 @@
     <form action="https://formspree.io/f/xjkebrwy" method="POST" class="booking-form" id="bookingForm" novalidate>
       <h1>Ticket Booking</h1>
       
-
       <label for="name">Full Name</label>
       <input type="text" id="name" name="name" required placeholder="Your Name" autocomplete="name" pattern="^[A-Za-z\s'.-]{2,}$" />
 
@@ -68,7 +67,7 @@
       <div class="row">
         <div>
           <label for="tickets">Number of Tickets</label>
-          <input type="number" id="tickets" name="tickets" min="1" max="20" value="1" required />
+          <input type="number" id="tickets" name="tickets" min="1" max="20" required />
         </div>
         <div>
           <label for="totalDisplay">Total Amount (₹)</label>
@@ -79,7 +78,7 @@
       <label for="ticketNumber">Ticket Number(s)</label>
       <input type="text" name="ticket_number" id="ticketNumber" readonly />
 
-      <!-- Hidden, clean values submitted to Formspree -->
+      <!-- Hidden values submitted -->
       <input type="hidden" id="totalAmount" name="total_amount" />
       <input type="hidden" id="amountPaise" name="amount_paise" />
 
@@ -106,13 +105,12 @@
       const formError = document.getElementById('formError');
 
       let ticketPrice = 0;
-
       const moneyFmt = new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' });
 
       function todayCode() {
         const d = new Date();
         const pad = (n) => String(n).padStart(2, '0');
-        return `${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}`; // YYYYMMDD
+        return `${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}`;
       }
 
       function uid(len = 4) {
@@ -127,14 +125,21 @@
       }
 
       function updateComputed() {
-        const n = Math.max(1, parseInt(tickets.value || '1', 10));
-        tickets.value = n; // clamp
+        const n = parseInt(tickets.value, 10);
 
         const selected = place.selectedOptions[0];
         ticketPrice = selected ? parseInt(selected.dataset.price || '0', 10) : 0;
 
         pricePill.textContent = ticketPrice ? `Per ticket: ${moneyFmt.format(ticketPrice)}` : 'Per ticket: —';
         codePill.textContent = `Code: ${todayCode()}`;
+
+        if (isNaN(n) || n < 1) {
+          totalDisplay.value = "₹0";
+          totalAmount.value = "";
+          amountPaise.value = "";
+          ticketNumberField.value = "";
+          return;
+        }
 
         const total = n * ticketPrice;
         totalDisplay.value = moneyFmt.format(total);
@@ -161,11 +166,18 @@
           formError.textContent = 'Selected place has no price. Please try again.';
           return;
         }
-        updateComputed(); // ensure latest
+        if (!tickets.value || parseInt(tickets.value, 10) < 1) {
+          e.preventDefault();
+          formError.textContent = 'Please enter number of tickets.';
+          tickets.focus();
+          return;
+        }
+        updateComputed();
       });
 
-      // initial
-      updateComputed();
+      // Start with everything blank
+      totalDisplay.value = "₹0";
+      ticketNumberField.value = "";
     })();
   </script>
 </body>
