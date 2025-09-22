@@ -6,24 +6,28 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;600&display=swap" rel="stylesheet" />
   <style>
-    body,
-    html {
-      height: 120%;
+    /* Reset and fullscreen background */
+    html, body {
+      height: 100%;
       margin: 0;
       font-family: 'Jost', sans-serif;
       color: #ffffff;
-      background: url('https://img.etimg.com/thumb/width-1600,height-900,imgsize-167783,resizemode-75,msid-32503709/industry/services/travel/adventure-tourism-business-booms-in-india-but-many-pitfalls-need-to-be-addressed.jpg') center/cover no-repeat;
+      background: url('https://img.etimg.com/thumb/width-1600,height-900,imgsize-167783,resizemode-75,msid-32503709/industry/services/travel/adventure-tourism-business-booms-in-india-but-many-pitfalls-need-to-be-addressed.jpg') 
+                  center/cover no-repeat fixed;
       position: relative;
     }
+
+    /* Dark overlay for readability */
     .overlay {
       background: rgba(0, 0, 0, 0.6);
-      position: absolute;
+      position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
       z-index: 1;
     }
+
     .container {
       position: relative;
       z-index: 2;
@@ -31,24 +35,29 @@
       max-width: 1100px;
       margin: auto;
     }
-    h1,
-    p {
+
+    h1, p {
       text-align: center;
       text-shadow: 0 0 8px #00f5ff;
     }
+
     h1 {
       font-size: 3rem;
       margin-top: 20px;
     }
+
     p {
       font-size: 1.2rem;
       margin-bottom: 20px;
     }
+
+    /* Responsive grid */
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 20px;
     }
+
     .card {
       background: rgba(255, 255, 255, 0.15);
       border-radius: 12px;
@@ -56,17 +65,21 @@
       backdrop-filter: blur(8px);
       transition: transform 0.3s ease, background 0.3s ease;
     }
+
     .card:hover {
       transform: scale(1.05);
       background: rgba(255, 255, 255, 0.25);
     }
+
     .card h2 {
       color: #ffdc64;
       margin-bottom: 10px;
     }
+
     .card p {
       margin: 5px 0;
     }
+
     .btn {
       display: inline-block;
       margin-top: 10px;
@@ -78,6 +91,7 @@
       font-weight: bold;
       transition: background 0.3s ease;
     }
+
     .btn:hover {
       background: #00bfa6;
       color: #fff;
@@ -85,7 +99,6 @@
   </style>
 </head>
 <body>
-  
   <div class="overlay"></div>
   <div class="container">
     <h1>Explore Tamil Nadu</h1>
@@ -134,8 +147,6 @@
         <p>Nearby: Beaches, memorials</p>
         <a href="booking.html?place=Kanyakumari" class="btn">Book View</a>
       </div>
-
-      <!-- More places added -->
 
       <div class="card">
         <h2>Ooty</h2>
