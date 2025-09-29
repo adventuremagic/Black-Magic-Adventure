@@ -1,195 +1,318 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8" />
-  <title>Tamil Nadu Tourist Explorer</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;600&display=swap" rel="stylesheet" />
-  <style>
-    /* Reset and fullscreen background */
-    html, body {
-      height: 100%;
-      margin: 0;
-      font-family: 'Jost', sans-serif;
-      color: #ffffff;
-      background: url('https://img.etimg.com/thumb/width-1600,height-900,imgsize-167783,resizemode-75,msid-32503709/industry/services/travel/adventure-tourism-business-booms-in-india-but-many-pitfalls-need-to-be-addressed.jpg') 
-                  center/cover no-repeat fixed;
-      position: relative;
-    }
+    <meta charset="UTF-8" />
+    <title>Tamil Nadu Tourist Explorer</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;600&display=swap" rel="stylesheet" />
+    <style>
+        /* Reset + base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    /* Dark overlay for readability */
-    .overlay {
-      background: rgba(0, 0, 0, 0.6);
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 1;
-    }
+        html,
+        body {
+            height: 100%;
+            font-family: 'Jost', sans-serif;
+            color: #fff;
+            overflow-x: hidden;
+        }
 
-    .container {
-      position: relative;
-      z-index: 2;
-      padding: 30px;
-      max-width: 1100px;
-      margin: auto;
-    }
+        /* Fullscreen background */
+        body {
+            background: url('https://img.etimg.com/thumb/width-1600,height-900,imgsize-167783,resizemode-75,msid-32503709/industry/services/travel/adventure-tourism-business-booms-in-india-but-many-pitfalls-need-to-be-addressed.jpg') no-repeat center center fixed;
+            background-size: cover;
+            position: relative;
+        }
 
-    h1, p {
-      text-align: center;
-      text-shadow: 0 0 8px #00f5ff;
-    }
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.65);
+            z-index: -1;
+        }
 
-    h1 {
-      font-size: 3rem;
-      margin-top: 20px;
-    }
+        /* Container */
+        .container {
+            padding: 40px 20px;
+            max-width: 1200px;
+            margin: auto;
+        }
 
-    p {
-      font-size: 1.2rem;
-      margin-bottom: 20px;
-    }
+        h1,
+        p {
+            text-align: center;
+            text-shadow: 0 0 8px #00f5ff;
+        }
 
-    /* Responsive grid */
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 20px;
-    }
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
 
-    .card {
-      background: rgba(255, 255, 255, 0.15);
-      border-radius: 12px;
-      padding: 20px;
-      backdrop-filter: blur(8px);
-      transition: transform 0.3s ease, background 0.3s ease;
-    }
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 10px #00ffd5, 0 0 20px #00ffd5;
+            }
 
-    .card:hover {
-      transform: scale(1.05);
-      background: rgba(255, 255, 255, 0.25);
-    }
+            to {
+                text-shadow: 0 0 20px #ffdc64, 0 0 40px #ffdc64;
+            }
+        }
 
-    .card h2 {
-      color: #ffdc64;
-      margin-bottom: 10px;
-    }
+        /* Grid layout */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+        }
 
-    .card p {
-      margin: 5px 0;
-    }
+        /* Cards */
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s ease, background 0.3s ease;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+        }
 
-    .btn {
-      display: inline-block;
-      margin-top: 10px;
-      padding: 10px 16px;
-      background: #00ffd5;
-      color: #000;
-      text-decoration: none;
-      border-radius: 6px;
-      font-weight: bold;
-      transition: background 0.3s ease;
-    }
+        .card:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.2);
+        }
 
-    .btn:hover {
-      background: #00bfa6;
-      color: #fff;
-    }
-  </style>
+        .card h2 {
+            color: #ffdc64;
+            margin-bottom: 10px;
+        }
+
+        .btn {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px 16px;
+            background: linear-gradient(90deg, #00ffd5, #00bfa6);
+            color: #000;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            background: linear-gradient(90deg, #ffdc64, #ffaa00);
+            color: #000;
+        }
+
+        /* Topbar */
+        .topbar {
+            text-align: right;
+            padding: 15px 25px;
+            background: rgba(0, 0, 0, 0.4);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 5;
+            backdrop-filter: blur(6px);
+        }
+
+        .topbar button {
+            background: #ffdc64;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        /* Auth popup */
+        .auth-popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.75);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+        }
+
+        .auth-box {
+            background: #1e293b;
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            width: 350px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+        }
+
+        .auth-box h2 {
+            margin-bottom: 20px;
+            color: #ffdc64;
+        }
+
+        .auth-box input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 6px;
+            border: none;
+            outline: none;
+        }
+
+        .auth-box button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            background: #00ffd5;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .auth-box button:hover {
+            background: #00bfa6;
+        }
+    </style>
 </head>
+
 <body>
-  <div class="overlay"></div>
-  <div class="container">
-    <h1>Explore Tamil Nadu</h1>
-    <p>Discover stunning places, check timings, nearby amenities, and book tickets with ease.</p>
+    <div class="overlay"></div>
+    <div class="container">
+        <h1>Explore Tamil Nadu</h1>
+        <p>Discover stunning places, check timings, nearby amenities, and book tickets with ease.</p>
+        <div class="grid">
+            <div class="card">
+                <h2>Mahabalipuram</h2>
+                <p>UNESCO site: Shore Temple, Pancha Rathas, Arjuna’s Penance</p>
+                <p>Nearby: Beaches, carving shops</p>
+                <p><strong>Ticket: ₹150</strong></p> <a href="booking.html?place=Mahabalipuram" class="btn">Book
+                    Visit</a>
+            </div>
+            <div class="card">
+                <h2>Kodaikanal</h2>
+                <p>Princess of Hill Stations: Coaker’s Walk, Bryant Park, Pillar Rocks</p>
+                <p>Nearby: Local markets, chocolate shops</p> <a href="booking.html?place=Kodaikanal" class="btn">Book
+                    Trip</a>
+            </div>
+            <div class="card">
+                <h2>Rameswaram</h2>
+                <p>Ramanathaswamy Temple, serene beaches</p>
+                <p>Nearby: Pilgrim facilities, hotels</p> <a href="booking.html?place=Rameswaram" class="btn">Book
+                    Entry</a>
+            </div>
+            <div class="card">
+                <h2>Hogenakkal Falls</h2>
+                <p>“Niagara of India” – coracle rides, scenic beauty</p>
+                <p>Nearby: Local eateries</p> <a href="booking.html?place=Hogenakkal Falls" class="btn">Book Ride</a>
+            </div>
+            <div class="card">
+                <h2>Chettinad</h2>
+                <p>Heritage mansions, spicy Chettinad cuisine</p>
+                <p>Nearby: Palaces, local crafts</p> <a href="booking.html?place=Chettinad" class="btn">Book Tour</a>
+            </div>
+            <div class="card">
+                <h2>Kanyakumari</h2>
+                <p>Sunrise/Sunset views; Vivekananda Rock Memorial</p>
+                <p>Nearby: Beaches, memorials</p> <a href="booking.html?place=Kanyakumari" class="btn">Book View</a>
+            </div> <!-- More places added -->
+            <div class="card">
+                <h2>Ooty</h2>
+                <p>Queen of Hill Stations: Botanical Gardens, Ooty Lake</p>
+                <p>Nearby: Tea plantations, scenic viewpoints</p> <a href="booking.html?place=Ooty" class="btn">Book
+                    Trip</a>
+            </div>
+            <div class="card">
+                <h2>Madurai</h2>
+                <p>Meenakshi Amman Temple, rich cultural heritage</p>
+                <p>Nearby: Markets, local cuisine</p> <a href="booking.html?place=Madurai" class="btn">Book Visit</a>
+            </div>
+            <div class="card">
+                <h2>Thanjavur</h2>
+                <p>Brihadeeswarar Temple, art and history</p>
+                <p>Nearby: Museums, traditional crafts</p> <a href="booking.html?place=Thanjavur" class="btn">Book
+                    Tour</a>
+            </div>
+            <div class="card">
+                <h2>Yercaud</h2>
+                <p>Scenic hill station with lake and gardens</p>
+                <p>Nearby: Nature trails, plantations</p> <a href="booking.html?place=Yercaud" class="btn">Book Trip</a>
+            </div>
+            <div class="card">
+                <h2>Coimbatore</h2>
+                <p>Textile city with temples and parks</p>
+                <p>Nearby: Shopping, restaurants</p> <a href="booking.html?place=Coimbatore" class="btn">Book Visit</a>
+            </div>
+            <div class="card">
+                <h2>Velankanni</h2>
+                <p>Famous Basilica of Our Lady of Good Health</p>
+                <p>Nearby: Pilgrim facilities</p> <a href="booking.html?place=Velankanni" class="btn">Book Visit</a>
 
-    <div class="grid">
-      <div class="card">
-        <h2>Mahabalipuram</h2>
-        <p>UNESCO site: Shore Temple, Pancha Rathas, Arjuna’s Penance</p>
-        <p>Nearby: Beaches, carving shops</p>
-        <p><strong>Ticket: ₹150</strong></p>
-        <a href="booking.html?place=Mahabalipuram" class="btn">Book Visit</a>
-      </div>
+                <!-- Login/Signup Popup -->
+                <div class="auth-popup" id="authPopup">
+                    <div class="auth-box">
+                        <h2 id="authTitle">Login</h2>
+                        <input type="text" id="username" placeholder="Enter Username" />
+                        <input type="password" id="password" placeholder="Enter Password" />
+                        <button onclick="handleAuth()">Submit</button>
+                        <p style="margin-top: 15px;">
+                            <a href="#" style="color:#00ffd5;" onclick="toggleAuth(event)">New User? Create Account</a>
+                        </p>
+                    </div>
+                </div>
 
-      <div class="card">
-        <h2>Kodaikanal</h2>
-        <p>Princess of Hill Stations: Coaker’s Walk, Bryant Park, Pillar Rocks</p>
-        <p>Nearby: Local markets, chocolate shops</p>
-        <a href="booking.html?place=Kodaikanal" class="btn">Book Trip</a>
-      </div>
+                <script>
+                    let isLogin = true;
 
-      <div class="card">
-        <h2>Rameswaram</h2>
-        <p>Ramanathaswamy Temple, serene beaches</p>
-        <p>Nearby: Pilgrim facilities, hotels</p>
-        <a href="booking.html?place=Rameswaram" class="btn">Book Entry</a>
-      </div>
+                    function openAuth() {
+                        document.getElementById("authPopup").style.display = "flex";
+                    }
 
-      <div class="card">
-        <h2>Hogenakkal Falls</h2>
-        <p>“Niagara of India” – coracle rides, scenic beauty</p>
-        <p>Nearby: Local eateries</p>
-        <a href="booking.html?place=Hogenakkal Falls" class="btn">Book Ride</a>
-      </div>
+                    function toggleAuth(event) {
+                        event.preventDefault();
+                        isLogin = !isLogin;
+                        document.getElementById("authTitle").innerText = isLogin ? "Login" : "Create Account";
+                    }
 
-      <div class="card">
-        <h2>Chettinad</h2>
-        <p>Heritage mansions, spicy Chettinad cuisine</p>
-        <p>Nearby: Palaces, local crafts</p>
-        <a href="booking.html?place=Chettinad" class="btn">Book Tour</a>
-      </div>
+                    function handleAuth() {
+                        const user = document.getElementById("username").value;
+                        const pass = document.getElementById("password").value;
 
-      <div class="card">
-        <h2>Kanyakumari</h2>
-        <p>Sunrise/Sunset views; Vivekananda Rock Memorial</p>
-        <p>Nearby: Beaches, memorials</p>
-        <a href="booking.html?place=Kanyakumari" class="btn">Book View</a>
-      </div>
+                        if (!user || !pass) {
+                            alert("Please fill all fields!");
+                            return;
+                        }
 
-      <div class="card">
-        <h2>Ooty</h2>
-        <p>Queen of Hill Stations: Botanical Gardens, Ooty Lake</p>
-        <p>Nearby: Tea plantations, scenic viewpoints</p>
-        <a href="booking.html?place=Ooty" class="btn">Book Trip</a>
-      </div>
-
-      <div class="card">
-        <h2>Madurai</h2>
-        <p>Meenakshi Amman Temple, rich cultural heritage</p>
-        <p>Nearby: Markets, local cuisine</p>
-        <a href="booking.html?place=Madurai" class="btn">Book Visit</a>
-      </div>
-
-      <div class="card">
-        <h2>Thanjavur</h2>
-        <p>Brihadeeswarar Temple, art and history</p>
-        <p>Nearby: Museums, traditional crafts</p>
-        <a href="booking.html?place=Thanjavur" class="btn">Book Tour</a>
-      </div>
-
-      <div class="card">
-        <h2>Yercaud</h2>
-        <p>Scenic hill station with lake and gardens</p>
-        <p>Nearby: Nature trails, plantations</p>
-        <a href="booking.html?place=Yercaud" class="btn">Book Trip</a>
-      </div>
-
-      <div class="card">
-        <h2>Coimbatore</h2>
-        <p>Textile city with temples and parks</p>
-        <p>Nearby: Shopping, restaurants</p>
-        <a href="booking.html?place=Coimbatore" class="btn">Book Visit</a>
-      </div>
-
-      <div class="card">
-        <h2>Velankanni</h2>
-        <p>Famous Basilica of Our Lady of Good Health</p>
-        <p>Nearby: Pilgrim facilities</p>
-        <a href="booking.html?place=Velankanni" class="btn">Book Visit</a>
-      </div>
-    </div>
-  </div>
+                        if (isLogin) {
+                            const savedUser = localStorage.getItem("username");
+                            const savedPass = localStorage.getItem("password");
+                            if (user === savedUser && pass === savedPass) {
+                                alert("Login successful!");
+                                window.location.href = "adventure.html";
+                            } else {
+                                alert("Invalid credentials. Please try again.");
+                            }
+                        } else {
+                            localStorage.setItem("username", user);
+                            localStorage.setItem("password", pass);
+                            alert("Account created! You can now log in.");
+                            isLogin = true;
+                            document.getElementById("authTitle").innerText = "Login";
+                        }
+                    }
+                </script>
 </body>
+
 </html>
